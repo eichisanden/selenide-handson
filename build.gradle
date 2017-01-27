@@ -13,3 +13,32 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'com.codeborne:selenide:4.2.1'
 }
+
+task uitest(type: Test) {
+    systemProperties['browser'] = 'firefox'
+}
+
+task ie(type: Test) {
+    systemProperties['browser'] = 'ie'
+    systemProperties['timeout'] = '12000'
+}
+
+task htmlunit(type: Test) {
+    systemProperties['browser'] = 'htmlunit'
+}
+
+task chrome(type: Test) {
+    systemProperties['browser'] = 'chrome'
+    systemProperties['webdriver.chrome.driver'] = 'drivers/chromedriver'
+}
+
+task phantomjs(type: Test) {
+    systemProperties['browser'] = 'phantomjs'
+    systemProperties['phantomjs.binary.path'] = 'drivers/phantomjs'
+}
+
+tasks.withType(Test).all { testTask ->
+    testTask.systemProperties['file.encoding'] = 'UTF-8'
+    testTask.testLogging.showStandardStreams = true
+    testTask.outputs.upToDateWhen { false }
+}
